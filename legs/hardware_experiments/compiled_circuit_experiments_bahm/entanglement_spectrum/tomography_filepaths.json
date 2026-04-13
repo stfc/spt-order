@@ -1,0 +1,22 @@
+{
+    "1": {
+        "result_fn": "./experiments/n_100_J0_1.0_J1_-1.0_layers_3/2025_11_27_09_37_05/results/tomography_results_ibm_pittsburgh_d4k1o790i6jc73debjv0.pkl",
+        "target_mps_fn": "../../../bond_alternating_heisenberg_model/saved_mps/target_n_100_J0_1.0_J1_-1.0_hz_0.0_trunc_1e-12_compressed_bd_None.pkl",
+        "compiled_circuit_fn": "../../../bond_alternating_heisenberg_model_compiling/results/n_100_layers_3_J0_1.0_J1_-1.0_tt_1e-12_1756388302044458855_fidelity_0.9900.txt"
+    },
+    "2": {
+        "result_fn": "./experiments/n_100_J0_1.0_J1_0.5_layers_3/2025_11_27_09_39_11/results/tomography_results_ibm_pittsburgh_d4k1p5t74pkc7386imd0.pkl",
+        "target_mps_fn": "../../../bond_alternating_heisenberg_model/saved_mps/target_n_100_J0_1.0_J1_0.5_hz_0.0_trunc_1e-12_compressed_bd_None.pkl",
+        "compiled_circuit_fn": "../../../bond_alternating_heisenberg_model_compiling/results/n_100_layers_3_J0_1.0_J1_0.5_tt_1e-12_1756375695282178000_fidelity_0.9900.txt"
+    },
+    "3": {
+        "result_fn": "./experiments/n_100_J0_1.0_J1_-2.0_layers_6/2025_12_05_09_34_20/results/tomography_results_ibm_pittsburgh_d4paf87t3pms739605g0.pkl",
+        "target_mps_fn": "../../../bond_alternating_heisenberg_model/saved_mps/target_n_100_J0_1.0_J1_-2.0_hz_0.0_trunc_1e-12_compressed_bd_None.pkl",
+        "compiled_circuit_fn": "../../../bond_alternating_heisenberg_model_compiling/results/n_100_layers_6_J0_1.0_J1_-2.0_tt_1e-12_1756388702662351325_fidelity_0.9794.txt"
+    },
+    "4": {
+        "result_fn": "./experiments/n_100_J0_0.5_J1_1.0_layers_3/2026_02_05_11_03_31/results/tomography_results_ibm_pittsburgh_d627ihjtraac73bfq9lg.pkl",
+        "target_mps_fn": "../../../bond_alternating_heisenberg_model/saved_mps/target_n_100_J0_0.5_J1_1.0_hz_0.0_trunc_1e-12_compressed_bd_None.pkl",
+        "compiled_circuit_fn": "../../../bond_alternating_heisenberg_model_compiling/results/n_100_layers_3_J0_0.5_J1_1.0_tt_1e-12_1769679224814412000_fidelity_0.9900.txt"
+    }
+}

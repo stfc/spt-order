@@ -1,0 +1,20 @@
+[project]
+name = "legs"
+version = "0.1.0"
+description = "simulating Large and Entangled Ground States on quantum computers"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "qiskit[visualization]~=1.3.1",
+    "qiskit_aer~=0.16.0",
+    "qiskit-ibm-runtime",
+    "qiskit_experiments~=0.6.1",
+    "pytest>=8.3.3",
+    "numpy",
+    "scipy",
+    "physics-tenpy>=1.0.4",
+    "qiskit-addon-aqc-tensor[aer,quimb-jax]",
+    "qiskit_qasm3_import",
+    "adaptaqc@git+https://github.com/qiskit-community/adapt-aqc.git",
+    "mps-to-circuit@git+https://github.com/qiskit-community/mps-to-circuit.git",
+]

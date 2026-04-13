@@ -1,0 +1,16 @@
+{
+    "method": "AQC",
+    "target_mps_fn": "../bond_alternating_heisenberg_model_compiling/saved_mps/target_n_100_J0_1.0_J1_-2.0_hz_0.0_trunc_1e-12_compressed_bd_None.pkl",
+    "0": {
+        "compiled_circuit_fn": "../bond_alternating_heisenberg_model_compiling/results/n_100_layers_6_J0_1.0_J1_-2.0_tt_1e-12_1756388702662351325_fidelity_0.9794.txt",
+        "fidelity": 0.9791515948738692,
+        "ops": {
+            "rz": 3320,
+            "cx": 1932,
+            "rx": 1388,
+            "ry": 1288
+        },
+        "depth": 106,
+        "cx_depth": 39
+    }
+}
