@@ -16,6 +16,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from pathlib import Path
+from legs.hardware_experiments.utils import recompute_best_extrapolator
 
 plt.rc("font", family="serif")
 plt.rcParams.update({"font.size": 12})
@@ -50,6 +51,8 @@ result_fn = "../compiled_circuit_experiments_bahm/experiments/n_100_J0_1.0_J1_-2
 
 with open(result_fn, "rb") as file:
     result_dict = pkl.load(file)
+
+result_dict = recompute_best_extrapolator(result_dict)
 
 # Save figures in the right directory
 split_fn = result_fn.split("/")

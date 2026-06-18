@@ -16,7 +16,7 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 from pathlib import Path
-from legs.hardware_experiments.utils import get_observable_results
+from legs.hardware_experiments.utils import get_observable_results, recompute_best_extrapolator
 from legs.bond_alternating_heisenberg_model.utils import string_expectation_values
 from legs.bond_alternating_heisenberg_model.utils import load_mps_from_file
 from legs.hardware_experiments.compiled_circuit_experiments_bahm.constants import (
@@ -61,6 +61,8 @@ assert f"J0_{J0}" in result_fn
 assert f"J1_{J1}" in result_fn
 with open(result_fn, "rb") as file:
     result_dict = pkl.load(file)
+
+result_dict = recompute_best_extrapolator(result_dict)
 
 # Get backend name from result_fn
 split_fn = result_fn.split("_")

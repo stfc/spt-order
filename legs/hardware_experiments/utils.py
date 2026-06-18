@@ -39,6 +39,104 @@ functions = {
     "polynomial_degree_2": polynomial_degree_2,
 }
 
+parameter_count = {
+    "exponential": 2,
+    "linear": 2,
+    "polynomial_degree_2": 3,
+}
+
+
+def bayesian_information_criterion(n: int, ssr: float, k: int) -> float:
+    """
+    Function to calculate the Bayesian information criterion (BIC) for a given fit. The BIC is
+    given by:
+
+    BIC = n * ln(SSR / n) + k * ln(n)
+
+    where n is the number of data points, SSR is the sum of the squared residuals between the raw
+    and fitted data, and k is the number of parameters in the fitting function. The BIC aims to
+    promote fits with lower SSR, whilst penalising fits with more parameters (to avoid overfitting),
+    and a lower BIC indicates a better fit.
+
+    Args:
+        n (int): The number of data points.
+        ssr (float): The sum of the squared residuals between the raw and fitted data.
+        k (int): The number of parameters in the fitting function.
+    Returns:
+        (float): The BIC.
+    """
+    return n * np.log(ssr / n) + k * np.log(n)
+
+
+def recompute_best_extrapolator(result_dict: Dict) -> Dict:
+    """
+    This function overwrites the "best extrapolator" expectation values
+    (result_dict["PubResult.data"]["evs"]) and stds (result_dict["PubResult.data"]["stds"]). In
+    these fields, Qiskit returns the first extrapolator which it deems to be successful, using some
+    heuristic. This introduces a bias towards the first extrapolator (in our case exponential). We
+    now use the extrapolator with the lowest Bayesian information criterion as the best fit, except
+    for two exceptions. 1) if the range covered by the noisy data is below 0.1, we force a linear
+    fit, and 2) if the extrapolator with the lowest BIC results in an unphysical extrapolation
+    (>1 or <-1), we choose the next lowest BIC, and so on.
+
+    Args:
+        result_dict (dict): The results dictionary from submit_jobs.py.
+    Returns:
+        result_dict (dict): The modified results dictionary.
+    """
+    extrapolators = result_dict["PrimitiveResult.metadata"]["resilience"]["zne"][
+        "extrapolator"
+    ]
+
+    for obs_index in range(
+        result_dict["PubResult.metadata"]["resilience"]["zne"]["extrapolator"].shape[0]
+    ):
+        raw_data = result_dict["PubResult.data"]["evs_noise_factors"][obs_index]
+
+        # Choose the fit with the lowest Bayesian information criterion.
+        score = []
+        for i in range(len(extrapolators)):
+
+            fitted_data = result_dict["PubResult.data"]["evs_extrapolated"][obs_index][
+                i
+            ][1:]
+
+            extrapolated_value = result_dict["PubResult.data"]["evs_extrapolated"][
+                obs_index
+            ][i][0]
+
+            if extrapolated_value > 1 or extrapolated_value < -1:
+                # If the EV is unphysical, do not choose.
+                score.append(np.inf)
+            elif (
+                np.max(raw_data) - np.min(raw_data) < 0.1
+                and extrapolators[i] == "linear"
+            ):
+                # If the variation is too low, choose linear.
+                score.append(-np.inf)
+            else:
+                # Choose the lowest BIC.
+                score.append(
+                    bayesian_information_criterion(
+                        raw_data.shape[0],
+                        np.sum(np.square(raw_data - fitted_data)),
+                        parameter_count[extrapolators[i]],
+                    )
+                )
+
+        best_index = score.index(min(score))
+        result_dict["PubResult.metadata"]["resilience"]["zne"]["extrapolator"][
+            obs_index
+        ] = extrapolators[best_index]
+        result_dict["PubResult.data"]["evs"][obs_index] = result_dict["PubResult.data"][
+            "evs_extrapolated"
+        ][obs_index][best_index][0]
+        result_dict["PubResult.data"]["stds"][obs_index] = result_dict[
+            "PubResult.data"
+        ]["stds_extrapolated"][obs_index][best_index][0]
+
+    return result_dict
+
 
 def get_observable_results(
     obs_of_interest: List[SparsePauliOp], result_dict: Dict

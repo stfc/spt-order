@@ -21,6 +21,7 @@ from adaptaqc.utils.utilityfunctions import qiskit_to_tenpy_mps
 from legs.hardware_experiments.utils import (
     get_observable_results,
     calculate_correlators_and_errors,
+    recompute_best_extrapolator
 )
 from legs.hardware_experiments.compiled_circuit_experiments_bahm.constants import (
     EXPERIMENT_TO_PLOT,
@@ -71,6 +72,8 @@ assert f"J0_{J0}" in result_fn
 assert f"J1_{J1}" in result_fn
 with open(result_fn, "rb") as file:
     result_dict = pkl.load(file)
+
+result_dict = recompute_best_extrapolator(result_dict)
 
 # Observables:
 # Zi on all qubits.
